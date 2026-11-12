@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Para ti ✨</title>
+    <title>Sorpresa ✨</title>
     <style>
         body {
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background-color: #fff0f5;
+            background-color: #e0f7fa; /* Fondo celeste suave */
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             text-align: center;
             overflow: hidden;
@@ -25,60 +25,87 @@
             max-width: 80%;
         }
         h1 { 
-            color: #ff4d6d; 
+            color: #00796b; 
             display: none; 
             font-size: 24px;
+            margin: 0;
         }
         button {
-            background-color: #ff4d6d;
+            background-color: #009688;
             color: white;
             border: none;
             padding: 15px 30px;
             font-size: 18px;
             border-radius: 25px;
             cursor: pointer;
-            transition: transform 0.2s, background-color 0.2s;
+            transition: background-color 0.2s;
         }
         button:hover { 
-            background-color: #ff2a55; 
-            transform: scale(1.05); 
+            background-color: #00796b; 
         }
-        .corazon {
+        .particula {
             position: absolute;
-            color: #ff4d6d;
-            font-size: 24px;
+            font-size: 28px;
             animation: flotar 4s linear forwards;
             user-select: none;
+            z-index: 1;
         }
         @keyframes flotar {
             0% { transform: translateY(100vh) scale(0.5); opacity: 1; }
-            100% { transform: translateY(-10vh) scale(1.5); opacity: 0; }
+            100% { transform: translateY(-10vh) scale(1.5) rotate(360deg); opacity: 0; }
         }
     </style>
 </head>
 <body>
     <div class="contenedor">
-        <button id="btnMagico">Tengo un mensaje para ti ❤️</button>
-        <!-- eres una chica increíble, cualquier hombre seria feliz contigo -->
-        <h1 id="mensaje">¡Espero que hoy tengas un día increíble!<br>Sonríe, que te ves genial. ✨</h1>
+        <button id="btnMagico">Tengo un mensaje para ti ✨</button>
+        <!-- Cambia este mensaje por lo que le quieras decir -->
+        <h1 id="mensaje">Ten un lindo dia asi como tu¡¡<br>Tu sonrisa es hermosa nunca lo ocultes. 🌻</h1>
     </div>
 
     <script>
-        document.getElementById('btnMagico').addEventListener('click', function() {
-            this.style.display = 'none';
-            document.getElementById('mensaje').style.display = 'block';
-            
-            // Función para crear la lluvia de corazones
-            setInterval(() => {
-                let corazon = document.createElement('div');
-                corazon.innerHTML = '❤️';
-                corazon.className = 'corazon';
-                corazon.style.left = Math.random() * 100 + 'vw';
-                corazon.style.animationDuration = (Math.random() * 2 + 3) + 's';
-                document.body.appendChild(corazon);
+        let btn = document.getElementById('btnMagico');
+        let contadorMovimientos = 0;
+
+        btn.addEventListener('click', function() {
+            if (contadorMovimientos < 3) {
+                // Textos divertidos mientras el botón se escapa
+                let frases = ["¡Ups, fallaste!", "¡Casi!", "¡Una más!"];
+                this.innerText = frases[contadorMovimientos];
+
+                // Permite que el botón se mueva libremente por toda la pantalla
+                this.style.position = 'fixed';
                 
-                setTimeout(() => { corazon.remove(); }, 5000);
-            }, 300);
+                // Calcula una posición aleatoria sin salirse de la ventana
+                let maxX = window.innerWidth - this.offsetWidth - 20;
+                let maxY = window.innerHeight - this.offsetHeight - 20;
+                
+                let randomX = Math.max(20, Math.floor(Math.random() * maxX));
+                let randomY = Math.max(20, Math.floor(Math.random() * maxY));
+                
+                this.style.left = randomX + 'px';
+                this.style.top = randomY + 'px';
+                
+                contadorMovimientos++;
+            } else {
+                // Al cuarto clic, el botón desaparece y muestra el mensaje
+                this.style.display = 'none';
+                document.getElementById('mensaje').style.display = 'block';
+                
+                // Animación de estrellas y flores
+                let emojis = ['✨', '🌸', '🌻', '🦋'];
+                
+                setInterval(() => {
+                    let particula = document.createElement('div');
+                    particula.innerHTML = emojis[Math.floor(Math.random() * emojis.length)];
+                    particula.className = 'particula';
+                    particula.style.left = Math.random() * 100 + 'vw';
+                    particula.style.animationDuration = (Math.random() * 3 + 3) + 's';
+                    document.body.appendChild(particula);
+                    
+                    setTimeout(() => { particula.remove(); }, 5000);
+                }, 300);
+            }
         });
     </script>
 </body>
